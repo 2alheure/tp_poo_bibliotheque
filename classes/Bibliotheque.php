@@ -11,6 +11,14 @@ class Bibliotheque {
     public array $livres = [];
     public string $nomFichier = 'books.csv';
 
+    public function __construct(string $nomFichier = 'books.csv') {
+        $this->nomFichier = __DIR__ . '/../exports/' . $nomFichier;
+
+        if (file_exists($this->nomFichier)) {
+            CSV::lireLivres($this);
+        }
+    }
+
     /**
      * Ajoute un livre à la bibliothèque
      * @param Livre $livre Le livre à ajouter

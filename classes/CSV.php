@@ -4,7 +4,6 @@ class CSV {
     /**
      * Ecrit notre bibliothèque en CSV
      * @param Bibliotheque $bibliotheque La bibliothèque à écrire
-     * @param string $fichier Le fichier das lequel écrire
      * 
      * @see https://www.php.net/manual/fr/function.fputcsv.php
      * @see https://www.php.net/manual/fr/function.fopen.php
@@ -18,7 +17,7 @@ class CSV {
          */
 
         // 1 / Ouvrir un fichier
-        $fichier = fopen(__DIR__ . '/../exports/' . $bibliotheque->nomFichier, 'w'); // w = Ecriture + si le fichier n'existe pas on le crée + on écrase l'ancien fichier s'il existe
+        $fichier = fopen($bibliotheque->nomFichier, 'w'); // w = Ecriture (write) + si le fichier n'existe pas on le crée + on écrase l'ancien fichier s'il existe
 
         if ($fichier === false) {
             // On vérifie qu'on a bien réussi à ouvrir le fichier
@@ -56,6 +55,55 @@ class CSV {
             ];
 
             fputcsv($fichier, $ligne);
+        }
+
+        // 3 / Fermer le fichier
+        fclose($fichier);
+    }
+
+    /**
+     * Remplit notre bibliothèque à partir de son CSV
+     * @param Bibliotheque $bibliotheque La bibliothèque à remplir
+     * 
+     * @see https://www.php.net/manual/fr/function.fputcsv.php
+     * @see https://www.php.net/manual/fr/function.fopen.php
+     */
+    public static function lireLivres(Bibliotheque $bibliotheque) {
+        /**
+         * Pour lire un fichier CSV on doit :
+         * 1 / Ouvrir le fichier
+         * 2 / Lire toutes les lignes
+         * 3 / Fermer le fichier
+         */
+
+        // 1 / Ouvrir un fichier
+        $fichier = fopen($bibliotheque->nomFichier, 'r'); // r = Lecture (read)
+
+        // 2 / Lire toutes les lignes
+        $premiere_ligne = true;
+        while (true) { // On le fait dans une boucle infinie 
+            $ligne = fgetcsv($fichier);
+
+            if ($ligne == false) // Si on a false, on est à la fin du fichier => on s'arrête
+                break;
+
+            if ($premiere_ligne) {
+                // Si on est sur la première ligne
+                // On l'ignore
+                $premiere_ligne = false;
+                continue;
+            } else {
+                $livre = new Livre($ligne[0], $ligne[3], $ligne[1], $ligne[2], $ligne[5], $ligne[4]);
+                $livre->emprunteur = $ligne[6];
+                $livre->rendu = $ligne[7] == 'Vrai';
+
+                if (!empty($livre->emprunteur)) {
+                    $livre->dateEmprunt = date_create_from_format('d/m/Y', $ligne[8]); // On doit passer d'une string à un Datetime
+                    $livre->dateRetour = date_create_from_format('d/m/Y', $ligne[9]); // On doit passer d'une string à un Datetime
+                }
+
+                $bibliotheque->ajouterLivre($livre);
+            }
         }
 
         // 3 / Fermer le fichier

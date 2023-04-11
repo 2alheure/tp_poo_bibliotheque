@@ -14,9 +14,6 @@ class Application {
 
     public function __construct() {
         $this->bibliotheque = new Bibliotheque;
-        $this->bibliotheque->ajouterLivre(new Livre('Harry Potter et la Coupe de Feu', '978000000', auteur: 'J.K. Rolling', datePublication: '30/11/2005'));
-        $this->bibliotheque->ajouterLivre(new Livre('Le Seigneur des Anneaux', '978000000', auteur: 'J.R.R. Tolkien', datePublication: '29/07/1954'));
-        $this->bibliotheque->ajouterLivre(new Livre('Les Misérables', '978000000', auteur: 'Victor Hugo', datePublication: '03/04/1862'));
     }
 
     /**
