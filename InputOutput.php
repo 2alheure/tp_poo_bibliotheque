@@ -53,14 +53,13 @@ class InputOutput {
             // et est invalide
         } while (!empty($datePublication) && date_create_from_format('d/m/Y', $datePublication) === false);
 
-        $resume = readline('Résumé : ');
+        $resume = readline('Résumé (optionnel) : ');
 
         static::printLn();
         static::printLn('Le livre ' . $titre . ' a correctement été créé');
 
         $livre = new Livre($titre, $isbn, $sousTitre, $auteur, $datePublication, $resume);
         $bibliotheque->ajouterLivre($livre);
-        CSV::ecrireLivres($bibliotheque);
 
         return $livre;
     }
@@ -129,7 +128,5 @@ class InputOutput {
         $livreEmprunte->etreEmprunte($emprunteur);
         static::printLn();
         static::printLn($emprunteur . ' a emprunté ' . $livreEmprunte->getAffichage() . ' avec succès.');
-
-        CSV::ecrireLivres($bibliotheque);
     }
 }
