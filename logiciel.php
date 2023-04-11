@@ -64,6 +64,18 @@ try {
                 $application->consulterStats();
                 break;
 
+            case Application::CONSULTER_LIVRE:
+                $application->consulterLivre();
+                break;
+
+            case Application::SUPPRIMER_LIVRE:
+                $application->supprimerLivre();
+                break;
+
+            case Application::MODIFIER_LIVRE:
+                $application->modifierLivre();
+                break;
+
             default:
                 throw new Exception('Un mauvais choix a réussi à se glisser ici.');
         }

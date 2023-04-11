@@ -3,7 +3,7 @@
 class InputOutput {
     /**
      * Affiche le contenu SANS sauter une ligne
-     * @param ?string $prompt Ce qui est à afficher
+     * @param string $prompt Ce qui est à afficher
      */
     public static function print(string $prompt = '') {
         echo $prompt;
@@ -11,7 +11,7 @@ class InputOutput {
 
     /**
      * Affiche le contenu PUIS saute une ligne
-     * @param ?string $prompt Ce qui est à afficher
+     * @param string $prompt Ce qui est à afficher
      */
     public static function printLn(string $prompt = '') {
         static::print($prompt . PHP_EOL);
@@ -38,6 +38,8 @@ class InputOutput {
      * @return Livre Le livre trouvé, résultat de la recherche
      */
     public static function rechercherLivre(Bibliotheque $bibliotheque): Livre {
+        InputOutput::printLn('Recherchons le livre concerné...');
+
         $recherche = ''; // On part avec une recherche vide
 
         do {
@@ -68,7 +70,7 @@ class InputOutput {
 
             if (count($livres) <= 10 && count($livres) > 0) {
                 // S'il y a peu de livres, on peut proposer un menu
-                static::printLn('Le livre emprunté fait-il partie des suivants ?');
+                static::printLn('Le livre fait-il partie des suivants ?');
                 static::printLn('Si oui, saisissez le numéro correspondant.');
                 static::printLn();
 
@@ -78,7 +80,6 @@ class InputOutput {
             }
 
             static::printLn();
-            static::printLn('Saisissez le livre emprunté. Si votre saisie ne correspond à rien, une recherche sera menée pour vous aider.');
 
             $recherche = readline('Votre saisie : ');
         } while (true); // On fait une boucle infinie, on ne peut s'arrêter que si un livre est trouvé
