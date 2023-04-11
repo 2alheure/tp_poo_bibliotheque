@@ -60,6 +60,10 @@ try {
                 $application->emprunterLivre();
                 break;
 
+            case Application::STATS:
+                $application->consulterStats();
+                break;
+
             default:
                 throw new Exception('Un mauvais choix a réussi à se glisser ici.');
         }

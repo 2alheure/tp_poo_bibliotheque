@@ -4,7 +4,8 @@ class Application {
     const
         QUITTER = 0,
         CREER_LIVRE = 1,
-        EMPRUNTER_LIVRE = 2;
+        EMPRUNTER_LIVRE = 2,
+        STATS = 3;
 
     public Bibliotheque $bibliotheque;
 
@@ -24,6 +25,7 @@ class Application {
             static::QUITTER => 'Quitter le logiciel',
             static::CREER_LIVRE => 'Enregistrer un nouveau livre',
             static::EMPRUNTER_LIVRE => 'Enregistrer un emprunt',
+            static::STATS => 'Consulter les statistiques',
         ];
     }
 
@@ -42,5 +44,16 @@ class Application {
 
     public function emprunterLivre() {
         InputOutput::emprunterLivre($this->bibliotheque);
+    }
+
+    public function consulterStats() {
+        $stats = new Statistique($this->bibliotheque);
+
+        InputOutput::printLn('Voici les statistiques de la bibliothèque :');
+        InputOutput::printLn('- Nombre de livres : ' . $stats->getNbLivres());
+        InputOutput::printLn('- Nombre de livres actuellement empruntés : ' . $stats->getNbLivresEmpruntes());
+        InputOutput::printLn('- Nombre de livres actuellement disponibles : ' . $stats->getNbLivresDispos());
+        InputOutput::printLn('- Nombre de livres actuellement en retard : ' . $stats->getNbLivresEnRetard());
+        InputOutput::printLn('- Durée moyenne des emprunts récents : ' . $stats->getDureeMoyenneEmprunt() . ' jour(s)');
     }
 }

@@ -8,7 +8,8 @@ class Livre {
     public string $isbn;
     public string $resume;
 
-    // On ajoute 3 infos pour les emprunts
+    // On ajoute 4 infos pour les emprunts
+    public bool $rendu = true;
     public string $emprunteur = '';
     public ?DateTime $dateEmprunt = null;
     public ?DateTime $dateRetour = null;
@@ -52,6 +53,7 @@ class Livre {
      * @param string $emprunteur La personne qui emprunte le livre
      */
     public function etreEmprunte(string $emprunteur) {
+        $this->rendu = false;
         $this->emprunteur = $emprunteur;
         $this->dateEmprunt = new DateTime;
         $this->dateRetour = new DateTime('+' . static::NB_JOURS_EMPRUNT . ' days');

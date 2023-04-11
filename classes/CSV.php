@@ -34,6 +34,7 @@ class CSV {
             'Résumé',
             'Date de publication',
             'Emprunteur',
+            'Rendu ?',
             'Date d\'emprunt',
             'Date de retour',
         ];
@@ -49,6 +50,7 @@ class CSV {
                 $livre->resume,
                 $livre->datePublication,
                 $livre->emprunteur,
+                $livre->rendu ? 'Vrai' : 'Faux', // Cf opérateur ternaire https://www.php.net/manual/fr/language.operators.comparison.php#language.operators.comparison.ternary
                 $livre->dateEmprunt?->format('d/m/Y'), // C'est un objet, il faut le transformer en string
                 $livre->dateRetour?->format('d/m/Y'), // C'est un objet, il faut le transformer en string
             ];
