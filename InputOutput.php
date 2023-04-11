@@ -110,7 +110,7 @@ class InputOutput {
                 $livres = $bibliotheque->livres;
             }
 
-            if (count($livres) <= 5 && count($livres) > 0) {
+            if (count($livres) <= 10 && count($livres) > 0) {
                 // S'il y a peu de livres, on peut proposer un menu
                 static::printLn('Le livre emprunté fait-il partie des suivants ?');
                 static::printLn('Si oui, saisissez le numéro correspondant.');
@@ -125,6 +125,6 @@ class InputOutput {
             static::printLn('Saisissez le livre emprunté. Si votre saisie ne correspond à rien, une recherche sera menée pour vous aider.');
 
             $recherche = readline('Votre saisie : ');
-        } while (true);
+        } while (true); // On fait une boucle infinie, on ne peut s'arrêter que si un livre est trouvé
     }
 }
