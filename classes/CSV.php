@@ -18,7 +18,7 @@ class CSV {
          */
 
         // 1 / Ouvrir un fichier
-        $fichier = fopen(__DIR__ . '/' . $bibliotheque->nomFichier, 'w'); // w = Ecriture + si le fichier n'existe pas on le crée + on écrase l'ancien fichier s'il existe
+        $fichier = fopen(__DIR__ . '/../exports/' . $bibliotheque->nomFichier, 'w'); // w = Ecriture + si le fichier n'existe pas on le crée + on écrase l'ancien fichier s'il existe
 
         if ($fichier === false) {
             // On vérifie qu'on a bien réussi à ouvrir le fichier
