@@ -65,28 +65,20 @@ class InputOutput {
     }
 
     /**
-     * Demande les informations à l'utilisateur pour emprunter un livre
-     * Propose une recherche si l'information saisie ne correspond à aucun livre
-     * @param Bibliotheque $bibliotheque La bibliothèque de laquelle le livre est emprunté
+     * Affiche un menu pour rechercher un livre, 
+     * jusqu'à ce qu'un seul livre soit sélectionné
+     * @param Bibliotheque $bibliotheque La bibliothèque de laquelle le livre est recherché
+     * @return Livre Le livre trouvé, résultat de la recherche
      */
-    public static function emprunterLivre(Bibliotheque $bibliotheque) {
-        static::printLn('Processus d\'emprunt enclenché.');
-
-        do {
-            $emprunteur = readline('Nom et prénom de l\'emprunteur : ');
-            // On redemande tant que c'est vide
-        } while (empty($emprunteur));
-
+    public static function rechercherLivre(Bibliotheque $bibliotheque): Livre {
         $recherche = ''; // On part avec une recherche vide
-        $livreEmprunte = null;
 
         do {
             if ($recherche !== '') {
 
                 if (!empty($livres[$recherche])) {
                     // Si la personne a saisi, dans la recherche, le numéro du livre
-                    $livreEmprunte = $livres[$recherche];
-                    break; // Le boulot est terminé, on peut sortir de la boucle
+                    return $livres[$recherche]; // Le boulot est terminé, on peut renvoyer le livre
                 }
 
                 // Si une recherche a été faite
@@ -96,8 +88,7 @@ class InputOutput {
                 if (count($livres) === 1) {
                     // On a trouvé un seul livre 
                     // ==> C'est celui qu'on veut emprunter
-                    $livreEmprunte = $livres[0];
-                    break; // Le boulot est terminé, on peut sortir de la boucle
+                    return $livres[0]; // Le boulot est terminé, on peut renvoyer le livre
                 } else {
                     // Sinon on affiche les résultats de la recherche
                     static::printLn();
@@ -124,7 +115,22 @@ class InputOutput {
 
             $recherche = readline('Votre saisie : ');
         } while (true); // On fait une boucle infinie, on ne peut s'arrêter que si un livre est trouvé
+    }
 
+    /**
+     * Demande les informations à l'utilisateur pour emprunter un livre
+     * Propose une recherche si l'information saisie ne correspond à aucun livre
+     * @param Bibliotheque $bibliotheque La bibliothèque de laquelle le livre est emprunté
+     */
+    public static function emprunterLivre(Bibliotheque $bibliotheque) {
+        static::printLn('Processus d\'emprunt enclenché.');
+
+        do {
+            $emprunteur = readline('Nom et prénom de l\'emprunteur : ');
+            // On redemande tant que c'est vide
+        } while (empty($emprunteur));
+
+        $livreEmprunte = static::rechercherLivre($bibliotheque);
         $livreEmprunte->etreEmprunte($emprunteur);
         static::printLn();
         static::printLn($emprunteur . ' a emprunté ' . $livreEmprunte->getAffichage() . ' avec succès.');
