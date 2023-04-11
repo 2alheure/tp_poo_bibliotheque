@@ -32,39 +32,6 @@ class InputOutput {
     }
 
     /**
-     * Demande les informations à l'utilisateur pour créer un livre
-     * et l'insère dans la bibliothèque
-     * @param Bibliotheque $bibliotheque La bibliothèque dans laquelle créer le livre
-     * @return Livre
-     */
-    public static function creerLivre(Bibliotheque $bibliotheque): Livre {
-        static::printLn('Processus de création de livre enclenché.');
-
-        $titre = readline('Titre : ');
-        $sousTitre = readline('Sous-titre (optionnel) : ');
-        $auteur = readline('Auteur (optionnel) : ');
-        $isbn = readline('ISBN : ');
-
-        do {
-            // On répète au moins une fois
-            $datePublication = readline('Date de publication (optionnel, format jj/mm/aaaa) : ');
-
-            // et tant que ce qu'on a donné n'est pas vide (puisqu'optionnel)
-            // et est invalide
-        } while (!empty($datePublication) && date_create_from_format('d/m/Y', $datePublication) === false);
-
-        $resume = readline('Résumé (optionnel) : ');
-
-        static::printLn();
-        static::printLn('Le livre ' . $titre . ' a correctement été créé');
-
-        $livre = new Livre($titre, $isbn, $sousTitre, $auteur, $datePublication, $resume);
-        $bibliotheque->ajouterLivre($livre);
-
-        return $livre;
-    }
-
-    /**
      * Affiche un menu pour rechercher un livre, 
      * jusqu'à ce qu'un seul livre soit sélectionné
      * @param Bibliotheque $bibliotheque La bibliothèque de laquelle le livre est recherché
@@ -115,24 +82,5 @@ class InputOutput {
 
             $recherche = readline('Votre saisie : ');
         } while (true); // On fait une boucle infinie, on ne peut s'arrêter que si un livre est trouvé
-    }
-
-    /**
-     * Demande les informations à l'utilisateur pour emprunter un livre
-     * Propose une recherche si l'information saisie ne correspond à aucun livre
-     * @param Bibliotheque $bibliotheque La bibliothèque de laquelle le livre est emprunté
-     */
-    public static function emprunterLivre(Bibliotheque $bibliotheque) {
-        static::printLn('Processus d\'emprunt enclenché.');
-
-        do {
-            $emprunteur = readline('Nom et prénom de l\'emprunteur : ');
-            // On redemande tant que c'est vide
-        } while (empty($emprunteur));
-
-        $livreEmprunte = static::rechercherLivre($bibliotheque);
-        $livreEmprunte->etreEmprunte($emprunteur);
-        static::printLn();
-        static::printLn($emprunteur . ' a emprunté ' . $livreEmprunte->getAffichage() . ' avec succès.');
     }
 }

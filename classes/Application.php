@@ -38,12 +38,53 @@ class Application {
         exit;
     }
 
+    /**
+     * Demande les informations à l'utilisateur pour créer un livre
+     * et l'insère dans la bibliothèque
+     */
     public function creerLivre() {
-        InputOutput::creerLivre($this->bibliotheque);
+        InputOutput::printLn('Processus de création de livre enclenché.');
+
+        $titre = readline('Titre : ');
+        $sousTitre = readline('Sous-titre (optionnel) : ');
+        $auteur = readline('Auteur (optionnel) : ');
+        $isbn = readline('ISBN : ');
+
+        do {
+            // On répète au moins une fois
+            $datePublication = readline('Date de publication (optionnel, format jj/mm/aaaa) : ');
+
+            // et tant que ce qu'on a donné n'est pas vide (puisqu'optionnel)
+            // et est invalide
+        } while (!empty($datePublication) && date_create_from_format('d/m/Y', $datePublication) === false);
+
+        $resume = readline('Résumé (optionnel) : ');
+
+        InputOutput::printLn();
+        InputOutput::printLn('Le livre ' . $titre . ' a correctement été créé');
+
+        $livre = new Livre($titre, $isbn, $sousTitre, $auteur, $datePublication, $resume);
+        $this->bibliotheque->ajouterLivre($livre);
+
+        return $livre;
     }
 
+    /**
+     * Demande les informations à l'utilisateur pour emprunter un livre
+     * Propose une recherche si l'information saisie ne correspond à aucun livre
+     */
     public function emprunterLivre() {
-        InputOutput::emprunterLivre($this->bibliotheque);
+        InputOutput::printLn('Processus d\'emprunt enclenché.');
+
+        do {
+            $emprunteur = readline('Nom et prénom de l\'emprunteur : ');
+            // On redemande tant que c'est vide
+        } while (empty($emprunteur));
+
+        $livreEmprunte = InputOutput::rechercherLivre($this->bibliotheque);
+        $livreEmprunte->etreEmprunte($emprunteur);
+        InputOutput::printLn();
+        InputOutput::printLn($emprunteur . ' a emprunté ' . $livreEmprunte->getAffichage() . ' avec succès.');
     }
 
     public function consulterStats() {
