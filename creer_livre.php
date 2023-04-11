@@ -2,5 +2,5 @@
 
 require_once 'init.php';
 
-$livre = InputOutput::createBook();
-InputOutput::dd($livre);
+$livre = InputOutput::creerLivre();
+$bibliotheque->ajouterLivre($livre);
