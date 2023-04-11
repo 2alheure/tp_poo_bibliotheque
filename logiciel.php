@@ -16,7 +16,7 @@
  * @param string $fqcn Le FQCn dont on doit faire le require
  */
 function fqcn_vers_fichier(string $fqcn) {
-    require_once __DIR__ . '/' . str_replace('\\', '/', $fqcn) . '.php';
+    require_once __DIR__ . '/classes/' . str_replace('\\', '/', $fqcn) . '.php';
 }
 
 spl_autoload_register('fqcn_vers_fichier');
