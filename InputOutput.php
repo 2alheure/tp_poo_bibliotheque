@@ -33,9 +33,11 @@ class InputOutput {
 
     /**
      * Demande les informations à l'utilisateur pour créer un livre
+     * et l'insère dans la bibliothèque
+     * @param Bibliotheque $bibliotheque La bibliothèque dans laquelle créer le livre
      * @return Livre
      */
-    public static function creerLivre(): Livre {
+    public static function creerLivre(Bibliotheque $bibliotheque): Livre {
         static::printLn('Processus de création de livre enclenché.');
 
         $titre = readline('Titre : ');
@@ -56,7 +58,11 @@ class InputOutput {
         static::printLn();
         static::printLn('Le livre ' . $titre . ' a correctement été créé');
 
-        return new Livre($titre, $isbn, $sousTitre, $auteur, $datePublication, $resume);
+        $livre = new Livre($titre, $isbn, $sousTitre, $auteur, $datePublication, $resume);
+        $bibliotheque->ajouterLivre($livre);
+        CSV::ecrireLivres($bibliotheque);
+
+        return $livre;
     }
 
     /**
@@ -73,18 +79,15 @@ class InputOutput {
         } while (empty($emprunteur));
 
         $recherche = ''; // On part avec une recherche vide
+        $livreEmprunte = null;
 
         do {
             if ($recherche !== '') {
 
                 if (!empty($livres[$recherche])) {
                     // Si la personne a saisi, dans la recherche, le numéro du livre
-                    $livres[$recherche]->etreEmprunte($emprunteur);
-
-                    static::printLn();
-                    static::printLn($emprunteur . ' a emprunté ' . $livres[0]->getAffichage() . ' avec succès.');
-
-                    return; // Le boulot est terminé, on peut sortir de la méthode
+                    $livreEmprunte = $livres[$recherche];
+                    break; // Le boulot est terminé, on peut sortir de la boucle
                 }
 
                 // Si une recherche a été faite
@@ -94,12 +97,8 @@ class InputOutput {
                 if (count($livres) === 1) {
                     // On a trouvé un seul livre 
                     // ==> C'est celui qu'on veut emprunter
-                    $livres[0]->etreEmprunte($emprunteur);
-
-                    static::printLn();
-                    static::printLn($emprunteur . ' a emprunté ' . $livres[0]->getAffichage() . ' avec succès.');
-
-                    return; // Le boulot est terminé, on peut sortir de la méthode
+                    $livreEmprunte = $livres[0];
+                    break; // Le boulot est terminé, on peut sortir de la boucle
                 } else {
                     // Sinon on affiche les résultats de la recherche
                     static::printLn();
@@ -126,5 +125,11 @@ class InputOutput {
 
             $recherche = readline('Votre saisie : ');
         } while (true); // On fait une boucle infinie, on ne peut s'arrêter que si un livre est trouvé
+
+        $livreEmprunte->etreEmprunte($emprunteur);
+        static::printLn();
+        static::printLn($emprunteur . ' a emprunté ' . $livreEmprunte->getAffichage() . ' avec succès.');
+
+        CSV::ecrireLivres($bibliotheque);
     }
 }

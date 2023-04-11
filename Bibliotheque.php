@@ -9,6 +9,7 @@ class Bibliotheque {
      * @var Livre[]
      */
     public array $livres = [];
+    public string $nomFichier = 'books.csv';
 
     /**
      * Ajoute un livre à la bibliothèque
