@@ -1,5 +1,11 @@
 <?php
 
+namespace App;
+
+use App\Livre;
+use Exception;
+use App\Bibliotheque;
+
 class CSV {
     /**
      * Ecrit notre bibliothèque en CSV

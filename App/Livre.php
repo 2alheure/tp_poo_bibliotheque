@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+use DateTime;
+
 class Livre {
     public string $titre;
     public string $sousTitre;

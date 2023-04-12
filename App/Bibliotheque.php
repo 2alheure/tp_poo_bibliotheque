@@ -1,5 +1,10 @@
 <?php
 
+namespace App;
+
+use App\CSV;
+use App\Livre;
+
 /**
  * Représente l'ensemble des livres 
  * d'une bibliothèque

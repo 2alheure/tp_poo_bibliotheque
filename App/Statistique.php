@@ -1,5 +1,10 @@
 <?php
 
+namespace App;
+
+use DateTime;
+use App\Bibliotheque;
+
 class Statistique {
     public Bibliotheque $bibliotheque;
 
@@ -72,6 +77,6 @@ class Statistique {
         }
 
         // On renvoie avec 2 nombres après la virgule
-        return number_format($dureeTotalEmpruntEnJours / $nbEmprunts, 2, ','); 
+        return number_format($dureeTotalEmpruntEnJours / $nbEmprunts, 2, ',');
     }
 }

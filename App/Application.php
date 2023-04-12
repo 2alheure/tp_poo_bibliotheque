@@ -1,5 +1,13 @@
 <?php
 
+namespace App;
+
+use App\CSV;
+use App\Livre;
+use App\InputOutput;
+use App\Statistique;
+use App\Bibliotheque;
+
 class Application {
     const
         QUITTER = 0,
@@ -53,8 +61,8 @@ class Application {
             // On continue tant que le titre n'est pas rempli
         } while (empty($titre));
 
-        $sousTitre = readline('Sous-titre [' . $livre->titre . '] : ');
-        $auteur = readline('Auteur [' . $livre->titre . '] : ');
+        $sousTitre = readline('Sous-titre (optionnel) : ');
+        $auteur = readline('Auteur (optionnel) : ');
 
         do {
             $isbn = readline('ISBN : ');
@@ -69,7 +77,7 @@ class Application {
             // et est invalide
         } while (!empty($datePublication) && date_create_from_format('d/m/Y', $datePublication) === false);
 
-        $resume = readline('Résumé [' . $livre->titre . '] : ');
+        $resume = readline('Résumé (optionnel) : ');
 
         InputOutput::printLn();
         InputOutput::printLn('Le livre ' . $titre . ' a correctement été créé');

@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+use App\Bibliotheque;
+
 class InputOutput {
     /**
      * Affiche le contenu SANS sauter une ligne
